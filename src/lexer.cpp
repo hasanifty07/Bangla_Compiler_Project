@@ -165,12 +165,12 @@ Token Lexer::getNextToken() {
         return readIdentifierOrKeyword();
     }
 
-    // 2. ASCII Numbers
+    //2.ASCII Numbers
     if (std::isdigit(c)) {
         return readNumber();
     }
 
-    // 3. Operators & Delimiters
+    //3.Operators & Delimiters
     advance();
     switch (c) {
         case '+': return Token(TokenType::PLUS, "+", line, startCol);

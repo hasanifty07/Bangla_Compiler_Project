@@ -2,9 +2,7 @@
 #include <stdexcept>
 #include <iostream>
 
-// ==========================================
 // AST Pretty Printing Implementation
-// ==========================================
 static void printIndent(int indent) {
     for (int i = 0; i < indent; ++i) std::cout << "  ";
 }
@@ -66,7 +64,7 @@ void WhileStmtNode::print(int indent) const {
     body->print(indent + 2);
 }
 
-// 1. AST node print method for PrintStmtNode
+// 1.AST node print method for PrintStmtNode
 void PrintStmtNode::print(int indent) const {
     printIndent(indent);
     std::cout << "PrintStmtNode\n";
@@ -101,9 +99,8 @@ void VariableExprNode::print(int indent) const {
     std::cout << "VariableExprNode (" << name << ")\n";
 }
 
-// ==========================================
+
 // Parser Implementation
-// ==========================================
 
 Parser::Parser(std::vector<Token> tokens) : tokens(std::move(tokens)) {}
 
@@ -203,8 +200,7 @@ std::unique_ptr<ProgramNode> Parser::parseProgram() {
     return program;
 }
 
-// 2. Add dispatch in parseStatement()
-// <statement> ::= <declaration_stmt> | <assignment_stmt> | <if_stmt> | <while_stmt> | <print_stmt> | <block_stmt>
+//2.Add dispatch in parseStatement()
 std::unique_ptr<StatementNode> Parser::parseStatement() {
     if (match(TokenType::KEYWORD_DHORI)) {
         return parseDeclaration();
@@ -230,7 +226,7 @@ std::unique_ptr<StatementNode> Parser::parseStatement() {
     return nullptr;
 }
 
-// <declaration_stmt> ::= "ধরি" <type> <identifier> ["=" <expression>] ";"
+
 std::unique_ptr<VarDeclNode> Parser::parseDeclaration() {
     // 1. Parse Type: "সংখ্যা" | "যৌক্তিক"
     if (!check(TokenType::KEYWORD_SONGKHA) && !check(TokenType::KEYWORD_JOUKTIK)) {
@@ -238,11 +234,11 @@ std::unique_ptr<VarDeclNode> Parser::parseDeclaration() {
     }
     std::string typeName = advance().lexeme;
 
-    // 2. Parse Identifier
+    //2.Parse Identifier
     const Token& idToken = consume(TokenType::IDENTIFIER, "Expected identifier after type name");
     std::string identifier = idToken.lexeme;
 
-    // 3. Optional initialization
+    //3.Optional initialization
     std::unique_ptr<ExpressionNode> initializer = nullptr;
     if (match(TokenType::ASSIGN)) {
         initializer = parseCondition(); // Allow expressions and boolean/relational values
@@ -252,7 +248,6 @@ std::unique_ptr<VarDeclNode> Parser::parseDeclaration() {
     return std::make_unique<VarDeclNode>(typeName, identifier, std::move(initializer));
 }
 
-// <assignment_stmt> ::= <identifier> "=" <expression> ";"
 std::unique_ptr<AssignStmtNode> Parser::parseAssignment() {
     const Token& idToken = consume(TokenType::IDENTIFIER, "Expected identifier");
     consume(TokenType::ASSIGN, "Expected '=' in assignment statement");
@@ -261,14 +256,13 @@ std::unique_ptr<AssignStmtNode> Parser::parseAssignment() {
     return std::make_unique<AssignStmtNode>(idToken.lexeme, std::move(value));
 }
 
-// 3. Implement parsePrintStatement: <print_stmt> ::= "লেখো" <expression> ";"
+//3.Implement parsePrintStatement: <print_stmt> ::= "লেখো" <expression> ";"
 std::unique_ptr<PrintStmtNode> Parser::parsePrintStatement() {
     auto expr = parseCondition();
     consume(TokenType::SEMICOLON, "Expected ';' after 'লেখো' statement");
     return std::make_unique<PrintStmtNode>(std::move(expr));
 }
 
-// <if_stmt> ::= "যদি" "(" <condition> ")" <block_stmt> ["নাহলে" <block_stmt>]
 std::unique_ptr<IfStmtNode> Parser::parseIfStatement() {
     consume(TokenType::LPAREN, "Expected '(' after 'যদি'");
     auto condition = parseCondition();
@@ -298,7 +292,6 @@ std::unique_ptr<WhileStmtNode> Parser::parseWhileStatement() {
     return std::make_unique<WhileStmtNode>(std::move(condition), std::move(body));
 }
 
-// <block_stmt> ::= "{" <statement_list> "}" | "{" "}"
 std::unique_ptr<BlockStmtNode> Parser::parseBlock() {
     auto block = std::make_unique<BlockStmtNode>();
     while (!check(TokenType::RBRACE) && !isAtEnd()) {
@@ -322,7 +315,6 @@ std::unique_ptr<ExpressionNode> Parser::parseCondition() {
 }
 
 // Level 1 Precedence: Addition & Subtraction (Lowest arithmetic precedence, left-associative)
-// <expression> ::= <expression> "+" <term> | <expression> "-" <term> | <term>
 std::unique_ptr<ExpressionNode> Parser::parseExpression() {
     auto expr = parseTerm();
 
@@ -348,7 +340,6 @@ std::unique_ptr<ExpressionNode> Parser::parseTerm() {
 }
 
 // Level 3 Precedence: Unary minus, Parentheses, Literals, Identifiers (Highest precedence)
-// <factor> ::= "(" <expression> ")" | "-" <factor> | <literal> | <identifier>
 std::unique_ptr<ExpressionNode> Parser::parseFactor() {
     // 1. Unary Minus
     if (match(TokenType::MINUS)) {
