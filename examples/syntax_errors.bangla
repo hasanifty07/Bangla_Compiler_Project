@@ -1,0 +1,6 @@
+# Grammar mistakes on purpose (the parser reports these)
+purno x = 10;
+dekhao(x +);          # bad expression
+purno w = 3           # missing semicolon
+dekhao("still compiling");
+jodi (x) { dekhao("hi"); }

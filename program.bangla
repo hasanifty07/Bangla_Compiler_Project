@@ -1,0 +1,84 @@
+# ===== 1. Multiplication table =====
+dekhao("--- Multiplication table ---");
+purno tN = 7;
+purno tI = 1;
+jotokkhon (tI <= 10) {
+    dekhao(tN, " x ", tI, " = ", tN * tI);
+    tI = tI + 1;
+}
+
+# ===== 2. Even or odd =====
+dekhao("--- Even or odd ---");
+purno eN = 17;
+purno eR = eN - (eN / 2) * 2;
+jodi (eR == 0) {
+    dekhao(eN, " is even");
+} nahole {
+    dekhao(eN, " is odd");
+}
+
+# ===== 3. Fibonacci =====
+dekhao("--- Fibonacci ---");
+purno fA = 0;
+purno fB = 1;
+purno fCount = 1;
+jotokkhon (fCount <= 10) {
+    dekhao(fA);
+    purno fNext = fA + fB;
+    fA = fB;
+    fB = fNext;
+    fCount = fCount + 1;
+}
+
+# ===== 4. Temperature =====
+dekhao("--- Temperature ---");
+doshomik celsius = 36.6;
+doshomik fahrenheit = celsius * 9 / 5 + 32;
+dekhao(celsius, " C = ", fahrenheit, " F");
+
+# ===== 5. Largest of three =====
+dekhao("--- Largest of three ---");
+purno lA = 12;
+purno lB = 45;
+purno lC = 30;
+purno big = lA;
+jodi (lB > big) { big = lB; }
+jodi (lC > big) { big = lC; }
+dekhao("Largest = ", big);
+
+# ===== 6. Sum of digits =====
+dekhao("--- Sum of digits ---");
+purno dN = 1234;
+purno dSum = 0;
+jotokkhon (dN > 0) {
+    purno dLast = dN - (dN / 10) * 10;
+    dSum = dSum + dLast;
+    dN = dN / 10;
+}
+dekhao("Sum of digits = ", dSum);
+
+# ===== 7. Prime check =====
+dekhao("--- Prime check ---");
+purno pN = 29;
+purno pD = 2;
+purno isPrime = 1;
+jotokkhon (pD * pD <= pN) {
+    jodi (pN - (pN / pD) * pD == 0) {
+        isPrime = 0;
+    }
+    pD = pD + 1;
+}
+jodi (isPrime == 1) {
+    dekhao(pN, " is prime");
+} nahole {
+    dekhao(pN, " is not prime");
+}
+
+# ===== 8. Countdown =====
+dekhao("--- Countdown ---");
+purno cT = 5;
+jotokkhon (cT > 0) {
+    dekhao(cT);
+    cT = cT - 1;
+}
+dekhao("Shuru!");

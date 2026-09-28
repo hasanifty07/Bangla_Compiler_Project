@@ -1,0 +1,7 @@
+# Grammar is fine, but the meaning is wrong (the semantic analyzer reports these)
+purno x = 10;
+purno x = 20;         # declared twice
+purno y = 5.5;        # doshomik into purno
+z = 3;                # z not declared
+purno a = 4 / 0;      # division by zero
+dekhao(q);            # q not declared
